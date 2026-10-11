@@ -1,0 +1,6 @@
+{
+  "name": "Java Email Administration & Spam Filter Dashboard",
+  "description": "Enterprise IT email administration dashboard with Java OOP architecture, mailbox traffic monitoring, heuristic and AI-powered spam filtering, and account provisioning.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
