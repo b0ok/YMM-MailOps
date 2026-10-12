@@ -1,201 +1,157 @@
-# YMM Enterprise MailOps & Java Administration Suite
+# YMM MailOps
 
-> **Enterprise Email Administration, Mailbox Telemetry, and Brand Defense Platform** built around robust **Java Object-Oriented Programming (OOP)** foundations, designed for **YMM (Young Millionaire Mindset)** and scalable enterprise IT teams.
+**An enterprise email admin and security operations console for YMM (Young Millionaire Mindset).** It takes the classic Java `Email` OOP exercise and builds a full SOC-style dashboard around it: mailbox provisioning, a weighted spam-scoring engine, brand-impersonation defense, statistical spike detection, and AI threat analysis powered by Gemini.
 
----
+![React 19](https://img.shields.io/badge/React-19-61dafb) ![TypeScript](https://img.shields.io/badge/TypeScript-strict-3178c6) ![Vite 8](https://img.shields.io/badge/Vite-8-646cff) ![Tailwind v4](https://img.shields.io/badge/Tailwind-v4-38bdf8) ![Gemini](https://img.shields.io/badge/AI-Gemini-8e75b2)
 
-## 📌 Repository Description
-
-A repository description is the **short, 1–2 sentence summary displayed under the repository title on GitHub / GitLab / Bitbucket**. It gives developers, recruiters, and stakeholders an immediate grasp of what your software accomplishes and what technologies it leverages.
-
-### Recommended Descriptions for this Repo:
-
-Choose the one that best fits your focus:
-
-* **Enterprise & Security Focus (Recommended):**
-  > `Enterprise mail administration & security operations platform for YMM, featuring Java OOP email lifecycle management, live telemetry, brand impersonation defense, and hybrid Microsoft 365 / Google Workspace mail ops.`
-
-* **Software Engineering & OOP Focus:**
-  > `Production-grade full-stack implementation of the classic Java EmailApp OOP architecture, complete with an interactive terminal, live mail telemetry, heuristic spam filter, and enterprise IT administration.`
-
-* **Concise / Punchy Tagline:**
-  > `Enterprise email administration dashboard & brand protection suite powered by Java OOP architecture, live anomaly detection, and automated provisioning.`
+> 7 workspaces · 15 components · 7 service modules · ~6,800 lines of TypeScript
 
 ---
 
-## 🚀 Key Features & Modules
+## ✨ Highlights
 
-### 1. 📬 Mailbox Ops & OOP Account Lifecycle
-* **Java Class Foundation**: Complete implementation of the classic `Email.java` specification with strict encapsulation (private fields, validated getters, and setters).
-* **Automated Company Syntax**: Generates corporate addresses matching company standard format: `firstname.lastname@department.company.com`.
-* **Cryptographic Random Passwords**: 10-character high-entropy alphanumeric password generator adhering to enterprise NIST guidelines.
-* **Storage Quota Enforcement**: Dynamic mailbox capacity management (MB) with live visual utilization bars, warning thresholds, and quota expansion.
-* **Alternate Address Routing**: Redirection and disaster-recovery backup address bindings.
-* **Getters & Setters Auditing**: Direct modal inspectors to test and visualize OOP encapsulation behavior.
-
-### 2. 🏢 Enterprise Infrastructure Hub
-* **Multi-Provider Simulation**: Seamless toggle between **Microsoft 365 (Exchange Online / Microsoft Graph)** and **Google Workspace (Gmail API)** environments.
-* **SCIM 2.0 HR Batch Sync**: Automated directory synchronization simulating Workday/BambooHR imports with conflict resolution and automated department code mapping.
-* **DNS Deliverability Wizard**: One-click DNS inspection and verification tool for:
-  - **SPF** (`v=spf1 include:spf.protection.outlook.com -all` / `_spf.google.com`)
-  - **DKIM** (2048-bit selector signatures)
-  - **DMARC** (`v=DMARC1; p=reject; rua=mailto:...`)
-  - **MX** Priority records with high-availability MX fallbacks
-
-### 3. 🛡️ Security & Brand Defense Center
-* **Lookalike & Typosquatting Radar**: Continuous defense against deceptive domain variations targeting `ymm.com` (e.g., `@ymn.com`, `@ymm-auth.top`, `@ymm-billing.xyz`, `@y-mm.com`).
-* **Executive & VIP Impersonation Shield**: Business Email Compromise (BEC) defense detecting display name spoofing, urgent wire transfers, gift card requests, and payroll divert attempts targeting leadership.
-* **Heuristic & AI Spam Filter Engine**: Evaluates inbound traffic against 8+ heuristic rule weights (advance-fee fraud, urgent phishing triggers, failed authentication, raw IPs) with scoring thresholds:
-  - `Score < 3.0` ➔ Delivered to Inbox
-  - `3.0 ≤ Score < 6.5` ➔ Flagged with Warnings
-  - `Score ≥ 6.5` ➔ Quarantined
-* **Live Quarantine Vault**: Secure containment area allowing security analysts to inspect packet payloads, inspect raw headers, release falsely flagged mail, or purge malicious payloads.
-
-### 4. 📈 Telemetry & Anomaly Spike Detection
-* **24-Hour Traffic Visualizer**: Live volumetric telemetry tracking clean inbound mail, filtered spam, and flagged attacks.
-* **Statistical Inbound Spike Detector**: Real-time algorithm monitoring account mail volume. When an account encounters a statistically anomalous surge (Z-score spike), the dashboard automatically triggers visual warning badges and high-priority modals to isolate potential compromised credentials or active spam storms.
-* **Audit Trail Export**: One-click CSV log export recording all provisioning events, password rotations, and security incidents.
-
-### 5. 💻 Interactive Java SE Engine & Terminal
-* **In-Browser Terminal Simulation**: Interactive CLI simulator executing the compiled `EmailApp.java` program with interactive prompts (`Scanner`), department selection, and real-time output.
-* **Source Code Explorer**: Full syntax-highlighted access to production Java reference classes (`Email.java`, `EmailApp.java`), complete with one-click clipboard copying and raw file download.
+| | Feature | What it does |
+|---|---|---|
+| 📬 | **Java OOP mailbox engine** | `JavaEmail` class ports `Email.java` with private fields, getters, setters, and a running method-call log |
+| 🛡️ | **Spam scoring engine** | 8 weighted rules (keyword, header-regex, subject-pattern) plus a brand-fraud pre-check, scored 0–10 |
+| 🎭 | **Brand & VIP defense** | Catches typosquat, homoglyph, and combo-squat domains, and spoofed executive display names (BEC) |
+| 📈 | **Z-score spike detector** | Flags accounts whose inbound volume is a statistical outlier and labels the threat type |
+| 🤖 | **AI deep inspection** | Sends a flagged message to Gemini through the server and gets back a structured threat verdict |
+| 🏢 | **M365 / Google Workspace ops** | Generates real Microsoft Graph and Admin SDK provisioning payloads, plus an SPF/DKIM/DMARC/BIMI panel |
+| 💻 | **In-browser Java terminal** | Runs `EmailApp.java` interactively, then exports the session as an audit report |
 
 ---
 
-## 🧱 Architecture Overview
+## 🧠 Under the hood: the key methods
 
-```
-├── /src
-│   ├── /components
-│   │   ├── Header.tsx                 # Grouped 4-hub navigation bar & mobile drawer
-│   │   ├── DashboardOverview.tsx      # Central KPI metrics, 24h charts & spike alerts
-│   │   ├── AccountDirectory.tsx       # Employee mailbox list, quota gauges & actions
-│   │   ├── EnterpriseMailOpsHub.tsx   # Microsoft 365 / Google Workspace & DNS wizard
-│   │   ├── BrandProtectionHub.tsx     # Typosquats, lookalikes & VIP BEC shields
-│   │   ├── SpamFilterView.tsx         # Heuristic rules engine, tester & quarantine vault
-│   │   ├── JavaTerminal.tsx           # Interactive simulated Java SE console
-│   │   ├── JavaCodeViewer.tsx         # Java OOP source code reference viewer
-│   │   ├── SpikeInspectionModal.tsx   # Anomaly spike deep-dive & containment modal
-│   │   └── Modals/                    # Encapsulated Getter/Setter inspectors
-│   ├── /services
-│   │   ├── brandProtection.ts         # Brand defence rules, homoglyphs & blacklist
-│   │   ├── spamFilter.ts              # Heuristic scanning & AI inspection engine
-│   │   └── geminiService.ts           # Optional generative AI analysis proxy
-│   ├── /types
-│   │   └── index.ts                   # Unified TypeScript schemas & interfaces
-│   ├── App.tsx                        # Root state manager & tab router
-│   ├── main.tsx                       # React application entry point
-│   └── index.css                      # Tailwind CSS v4 design tokens & fonts
-├── index.html                         # Entry HTML with typography & SEO meta
-├── metadata.json                      # Application metadata & capabilities
-├── package.json                       # Dependencies & build scripts
-├── server.ts                          # Full-stack Express & Vite dev proxy
-└── vite.config.ts                     # Vite build configuration
+### 1. `JavaEmail`: OOP account lifecycle (`src/services/javaEmail.ts`)
+
+This is a line-for-line port of `Email.java`. All state is private, and every getter and setter writes an entry to the console log, so you can watch encapsulation in action.
+
+```ts
+const em1 = new JavaEmail('Terry', 'Nguyen', 2);   // 1=sales, 2=dev, 3=acct, 0=none
+em1.getEmail();                 // "terry.nguyen@dev.aeycompany.com"
+em1.setMailboxCapacity(1000);
+em1.setAlternateEmail('t3@backup.com');
+em1.changePassword('********');
+em1.showInfo();                 // DISPLAY NAME / COMPANY EMAIL / MAILBOX CAPACITY / ALTERNATE EMAIL
+em1.getConsoleLogs();           // full timestamped method-call trail
 ```
 
----
+- **Address syntax:** `firstname.lastname@department.company.com`. Names are sanitized, and the department segment is dropped when no department is set.
+- **`setDepartment()`** accepts a numeric menu code (`1`/`2`/`3`) or a name (`'sales'`, `'development'`, ...), the same way the Java `Scanner` menu does.
+- **`randomPassword(10)`** draws from `A–Z`, `0–9`, and `!@#$%`.
 
-## 🛠️ Technology Stack
+### 2. `inspectEmailWithRules()`: weighted spam scoring (`src/services/spamFilter.ts`)
 
-| Layer | Technology |
-| :--- | :--- |
-| **Framework** | [React 19](https://react.dev/) + [TypeScript](https://www.typescriptlang.org/) |
-| **Styling & Design** | [Tailwind CSS v4](https://tailwindcss.com/) with dark mode palette |
-| **Icons & Visuals** | [Lucide React](https://lucide.dev/) |
-| **Charts & Metrics** | [Recharts](https://recharts.org/) |
-| **Build Tool** | [Vite 8](https://vite.dev/) |
-| **Server / Proxy** | [Express](https://expressjs.com/) via `tsx` |
-| **Core Paradigm** | Java SE Object-Oriented Programming (OOP) + Modern Web Full-Stack |
+Each message runs through a brand-fraud check first, then through every enabled rule. Each rule matches in its own way:
 
----
+| Rule category | Matches against | Example |
+|---|---|---|
+| `KEYWORD` | subject + body, pipe-separated terms | `wire transfer\|swift code` → **+3.5** |
+| `HEADER` | sender, case-insensitive regex | `\.(xyz\|top\|ru\|click)$` → **+2.5** |
+| `PATTERN` | raw subject regex | all-caps urgency `^[A-Z0-9\s!$%]{12,}$` → **+2.0** |
+| Brand pre-check | sender domain / display name | lookalike or VIP spoof → **+5.0** |
 
-## 💻 Local Setup & Development
+The final score is capped at 10.0, and the action depends on which band it lands in:
 
-### Prerequisites
-* **Node.js**: `v18.0.0` or higher
-* **npm**: `v9.0.0` or higher
-
-### Installation
-
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/your-username/ymm-mailops-suite.git
-   cd ymm-mailops-suite
-   ```
-
-2. **Install project dependencies:**
-   ```bash
-   npm install
-   ```
-
-3. **Start the local development server:**
-   ```bash
-   npm run dev
-   ```
-   The app will run locally at `http://localhost:3000`.
-
-4. **Verify TypeScript compilation & linting:**
-   ```bash
-   npm run lint
-   ```
-
-5. **Build for production:**
-   ```bash
-   npm run build
-   ```
-
----
-
-## ☕ Classic Java Reference Model
-
-The application mirrors the foundational Java class structure:
-
-```java
-package emailapp;
-
-public class Email {
-    private String firstName;
-    private String lastName;
-    private String password;
-    private String department;
-    private String email;
-    private int mailboxCapacity = 500;
-    private int defaultPasswordLength = 10;
-    private String alternateEmail;
-    private String companySuffix = "ymm.com";
-
-    // Constructor to receive first name and last name
-    public Email(String firstName, String lastName) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.department = setDepartment();
-        this.password = randomPassword(defaultPasswordLength);
-        this.email = firstName.toLowerCase() + "." + lastName.toLowerCase() + "@" + 
-                     (department.isEmpty() ? "" : department + ".") + companySuffix;
-    }
-
-    // Encapsulated Getters and Setters
-    public void setMailboxCapacity(int capacity) { this.mailboxCapacity = capacity; }
-    public void setAlternateEmail(String altEmail) { this.alternateEmail = altEmail; }
-    public void changePassword(String password) { this.password = password; }
-
-    public int getMailboxCapacity() { return mailboxCapacity; }
-    public String getAlternateEmail() { return alternateEmail; }
-    public String getPassword() { return password; }
-}
+```
+score < 5.0          → DELIVERED
+5.0 ≤ score < 7.5    → QUARANTINED
+score ≥ 7.5          → BLOCKED
 ```
 
+Rules can be toggled, created, and reset to the defaults from the **Spam Defense Center**, and the live traffic feed re-scores new mail against the current rule set.
+
+### 3. `inspectBrandFraud()`: impersonation defense (`src/services/brandProtection.ts`)
+
+- Parses `"Display Name" <address>` senders into a display name and an address.
+- **Lookalike watchlist:** `ymn.com` (homoglyph), `y-mm.com` (hyphenated), `theymm.co` (typosquat), `ymm-auth.top` / `ymm-billing.xyz` (combo-squat).
+- **Combo-squat heuristic:** flags any `ymm-` / `-ymm` / `ymm.` domain that isn't really `ymm.com` or one of its subdomains.
+- **VIP shield:** flags a protected executive's name in the display name when the address comes from outside the company (the classic CEO-fraud / BEC pattern).
+- `generateBrandAttackSimulation()` creates a realistic lookalike or CEO-fraud email on demand for live demos.
+
+### 4. `detectTrafficSpikes()`: statistical anomaly detection (`src/services/anomalyDetector.ts`)
+
+```
+mean   = packets / accounts
+σ      = max(1.2, √variance across accounts)
+z      = (observed − mean) / σ
+alert  if  z ≥ 1.8  AND  observed ≥ 3  AND  surge ≥ 2.0×
+```
+
+Each spike is labeled **SPAM_BOMBING** (≥60% spam), **CREDENTIAL_ATTACK** (dev/acct targets), or **NDR_BACKSCATTER**. It escalates to **CRITICAL** when z ≥ 3.0 or the spam ratio is ≥ 70%. From the inspection modal an admin can respond in one click: expand the quota (`setMailboxCapacity(+500)`), force a credential rotation (`changePassword`), or dismiss the alert.
+
+### 5. `POST /api/analyze-spam`: Gemini threat analyst (`server.ts`)
+
+An Express endpoint sends the message, its heuristic score, and the triggered rules to **Gemini 3.1 Pro** with high thinking enabled and JSON output. If the key doesn't have Pro access, it falls back to **Gemini 3.8 Flash**. The response includes:
+
+```json
+{ "classification": "BEC / CEO Fraud", "confidenceScore": 96, "threatLevel": "CRITICAL",
+  "recommendedAction": "BLOCK_SENDER", "detectedIndicators": ["..."], "mitigationAdvice": "..." }
+```
+
+The API key stays on the server and is never shipped to the browser.
+
+### 6. `generateProviderSyncPayload()`: hybrid mail ops (`src/services/enterpriseMailOps.ts`)
+
+One account can be turned into three provisioning targets:
+
+- **Microsoft 365:** `POST graph.microsoft.com/v1.0/users`, with an E5 license, `forceChangePasswordNextSignIn`, and the quota mapped to `maxReceiveSize`
+- **Google Workspace:** `POST admin.googleapis.com/.../users`, with an org-unit path per department and custom schema attributes
+- **YMM Native:** a self-hosted Java mail daemon profile
+
+There is also **SCIM-style HR batch sync**, which provisions new hires from an HR roster in one click. The DNS panel covers **SPF, DKIM (2048-bit), DMARC `p=reject`, and BIMI**, plus subdomain reputation isolation (`auth.`, `billing.`, `sales.`).
+
 ---
 
-## 🛡️ Security Best Practices Enforced
+## 🖥️ Workspaces
 
-1. **Least Privilege & Role-Based Access**: Mailbox capacity and department assignments require verified administrative role.
-2. **Strict Encapsulation**: Internal account parameters cannot be modified directly without invoking audited mutators (`setMailboxCapacity`, `setAlternateEmail`, `changePassword`).
-3. **Automated Anomaly Detection**: Statistical Z-Score tracking flags compromised accounts before volume flooding affects IP sender reputation.
-4. **Proactive Brand Defense**: Defensive domain monitoring stops brand abuse before phishing emails hit customer and employee inboxes.
+| Tab | Component | Highlights |
+|---|---|---|
+| Dashboard | `DashboardOverview`, `TrafficVolumeTrends` | KPI tiles, 24h traffic curve by department, spike alerts, daily activity report |
+| Accounts | `AccountDirectory`, `ProvisionModal`, `AccountActionModals` | Mailbox list, quota bars, getter/setter inspector modals |
+| Enterprise | `EnterpriseMailOpsHub` | Provider toggle, payload preview, HR batch sync, DNS records |
+| Brand | `BrandProtectionHub` | Lookalike watchlist, VIP roster, one-click attack simulation |
+| Spam | `SpamDefenseCenter`, `TrafficMonitor` | Rule editor, live feed (new packet every 14s), quarantine release/purge, AI inspect, test-payload injector |
+| Terminal | `JavaTerminal` | Interactive `EmailApp` run, copy logs, export audit report (`.txt`) |
+| Code | `JavaSourceExplorer` | `Email.java` / `EmailApp.java` with copy and `.java` download |
 
 ---
 
-## 📄 License
+## 🧱 Project structure
 
-This project is licensed under the [MIT License](LICENSE) — free to use for personal, educational, and commercial purposes.
+```
+├── server.ts                    # Express + Vite middleware, Gemini /api/analyze-spam
+├── src/
+│   ├── App.tsx                  # Root state, live traffic loop, admin action handlers
+│   ├── components/              # 15 UI components (see Workspaces)
+│   ├── services/
+│   │   ├── javaEmail.ts         # JavaEmail OOP class
+│   │   ├── spamFilter.ts        # Rule engine + seed traffic + AI client
+│   │   ├── brandProtection.ts   # Lookalike / VIP fraud detection
+│   │   ├── anomalyDetector.ts   # Z-score spike detection + spam-bomb generator
+│   │   ├── enterpriseMailOps.ts # M365 / Workspace payloads, DNS, subdomains, HR roster
+│   │   ├── trafficTrendsData.ts # 24h business-hours traffic model
+│   │   └── auditLogger.ts       # Audit report export
+│   ├── java/sourceCode.ts       # Reference Email.java / EmailApp.java
+│   └── types/index.ts           # Shared TypeScript types
+```
+
+## 🛠️ Stack
+
+React 19 · TypeScript · Vite 8 · Tailwind CSS v4 · Recharts · Motion · Lucide · Express · `@google/genai`
+
+## 🚀 Run it locally
+
+```bash
+git clone https://github.com/b0ok/YMM-MailOps.git
+cd YMM-MailOps
+npm install
+cp .env.example .env      # add GEMINI_API_KEY to enable AI inspection
+npm run dev               # http://localhost:3000
+```
+
+`npm run lint` type-checks the project, and `npm run build` creates a production bundle.
+
+> **Note:** This is a demo console. Mail traffic, provider sync, and DNS status are simulated in the browser. The Graph and Admin SDK payloads are real request shapes, but they are not sent anywhere. The only live external call is the Gemini analysis.
