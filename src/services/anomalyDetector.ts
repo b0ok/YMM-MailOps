@@ -21,18 +21,19 @@ export function detectTrafficSpikes(
     recipientCounts[key].packets.push(pkt);
   });
 
-  // Calculate baseline mean and standard deviation across accounts
-  const totalAcc = Math.max(1, accounts.length);
-  const baselineMean = packets.length / totalAcc;
-  const variance = accounts.reduce((acc, a) => {
-    const count = recipientCounts[a.email.toLowerCase()]?.total || 0;
-    return acc + Math.pow(count - baselineMean, 2);
-  }, 0) / totalAcc;
-  const stdDev = Math.max(1.2, Math.sqrt(variance));
+  const counts = accounts.map((a) => recipientCounts[a.email.toLowerCase()]?.total || 0);
 
-  accounts.forEach((acc) => {
+  accounts.forEach((acc, i) => {
     const stats = recipientCounts[acc.email.toLowerCase()];
     if (!stats) return;
+
+    // Leave-one-out baseline: compare against the OTHER accounts only. Including the
+    // account's own surge inflates mean and σ, capping z at √(n-1) (1.73 for 4 accounts).
+    const others = counts.filter((_, j) => j !== i);
+    const n = Math.max(1, others.length);
+    const baselineMean = others.reduce((s, c) => s + c, 0) / n;
+    const variance = others.reduce((s, c) => s + Math.pow(c - baselineMean, 2), 0) / n;
+    const stdDev = Math.max(1.2, Math.sqrt(variance));
 
     const observed = stats.total;
     const baselineExpected = Math.max(1, Math.round(baselineMean));
@@ -41,7 +42,7 @@ export function detectTrafficSpikes(
     const spamRatio = Math.round((stats.spam / Math.max(1, observed)) * 100);
 
     // Statistically significant condition:
-    // Z-Score >= 2.0 (top 2.5% tail) and observed >= 3 packets and surge >= 2.2x
+    // Z-Score >= 1.8 and observed >= 3 packets and surge >= 2.0x
     if (zScore >= 1.8 && observed >= 3 && surgeMultiplier >= 2.0) {
       let threatType: 'SPAM_BOMBING' | 'CREDENTIAL_ATTACK' | 'NDR_BACKSCATTER' = 'SPAM_BOMBING';
       if (spamRatio >= 60) {
